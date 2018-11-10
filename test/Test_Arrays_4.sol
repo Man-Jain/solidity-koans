@@ -20,10 +20,10 @@ contract Test_Arrays_4 is Koans {
     // Notice the lack of storage specificity generates compiler warnings
     function test_can_use_arrays_in_Solidity() public {
         bytes32[] bytesArray;
-        Assert.equal(bytesArray.length, __, "should be an empty bytes array");
+        Assert.equal(bytesArray.length, uint(0), "should be an empty bytes array");
         uint[] integers;
         integers.push(12345);
-        Assert.equal(integers.length, __, "should be a nonempty array of uints");
+        Assert.equal(integers.length, uint(1), "should be a nonempty array of uints");
     }
 
     // Arrays initialization defaults to storage, not memory
@@ -33,14 +33,14 @@ contract Test_Arrays_4 is Koans {
         uint[] memory memory_array;
         memory_array = storage_array;
         // Notice: storage_array = memory_array is NOT allowed
-        Assert.equal(memory_array, __, "should be the same array");
+        Assert.equal(memory_array, storage_array, "should be the same array");
     }
 
     // You can declare an immutable, static array
     uint[1] fixed_array;
     function test_fixed_arrays() public {
         fixed_array[0] = 1;
-        Assert.equal(fixed_array[0], __, "should only be able to store 1 uint");
+        Assert.equal(fixed_array[0], uint(1) , "should only be able to store 1 uint");
     }
 
     // You can declare mutable, dynamic arrays
@@ -49,10 +49,10 @@ contract Test_Arrays_4 is Koans {
     function test_dynamic_arrays() public {
         dynamic_array.push(1);
         dynamic_array.push(2);
-        Assert.equal(dynamic_array.length, __, "should be the correct length");
+        Assert.equal(dynamic_array.length, uint(2) , "should be the correct length");
         dynamic_array.push(3);
-        Assert.equal(dynamic_array.length, __, "should be the correct length");
-        Assert.equal(dynamic_array[2], __, "should be the correct value at index 2");
+        Assert.equal(dynamic_array.length, uint(3) , "should be the correct length");
+        Assert.equal(dynamic_array[2], uint(3) , "should be the correct value at index 2");
     }
 
     // You can resize dynamic storage arrays
@@ -62,13 +62,13 @@ contract Test_Arrays_4 is Koans {
         resizable_array.push(true);
         resizable_array.push(false);
         resizable_array.push(true);
-        Assert.equal(resizable_array.length, __, "should be the correct length");
-        Assert.equal(resizable_array[2], __, "should be the correct value at index 2");
+        Assert.equal(resizable_array.length, uint(3) , "should be the correct length");
+        Assert.equal(resizable_array[2], true , "should be the correct value at index 2");
         resizable_array.length = 2;
-        Assert.equal(resizable_array.length, __, "should be the correct length");
+        Assert.equal(resizable_array.length, uint(2) , "should be the correct length");
         resizable_array.length = 3;
-        Assert.equal(resizable_array.length, __, "should be the correct length");
-        Assert.equal(resizable_array[2], __, "should be the correct value at index 2");
+        Assert.equal(resizable_array.length, uint(3) , "should be the correct length");
+        Assert.equal(resizable_array[2], true , "should be the correct value at index 2");
     }
 
     // You can have array matrices
@@ -78,14 +78,14 @@ contract Test_Arrays_4 is Koans {
         matrix.push([1, 2]);
         matrix.push([3, 4]);
         matrix.push([5, 6]);
-        Assert.equal(matrix[0][1], __, "should be the correct uint value");
-        Assert.equal(matrix[1][0], __, "should be the correct uint value");
+        Assert.equal(matrix[0][1], uint(2) , "should be the correct uint value");
+        Assert.equal(matrix[1][0], uint(3) , "should be the correct uint value");
     }
 
     // Always be careful when modifying array sizes
     uint[] overflow_array;
     function test_index_overflows() public {
         overflow_array.length--;
-        Assert.equal(overflow_array.length, __, "should be an unintended length");
+        Assert.equal(overflow_array.length, uint(115792089237316195423570985008687907853269984665640564039457584007913129639935), "should be an unintended length");
     }
 }
